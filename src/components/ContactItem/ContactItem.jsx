@@ -1,25 +1,25 @@
-import styles from "./ContactItem.module.scss"; // Importamos los estilos desde el archivo module.scss
-
-import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { deleteContact } from "../../redux/contactsSlice";
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { deleteContact } from '../../redux/operations';
+import {Item, Text, Button} from './ContactItem.styled'
 
 export const ContactItem = ({ id, name, number }) => {
-  const dispatch = useDispatch();
-  const handleDelete = () => dispatch(deleteContact(id));
-  return (
-    <li className={styles.item}>
-      <p className={styles.text}>{name}</p>
-      <p className={styles.text}>{number}</p>
-      <button className={styles.button} type="button" onClick={handleDelete}>
-        Delete
-      </button>
-    </li>
-  );
+    const dispatch = useDispatch();
+    const handleDelete = () => dispatch(deleteContact(id));
+    return (
+        <Item>
+            <Text>{name}</Text>
+            <Text>{number}</Text>
+            <Button type='button'
+                onClick={handleDelete}>
+                Delete
+            </Button>
+        </Item>
+    );
 };
 
 ContactItem.propTypes = {
-  id: PropTypes.string,
-  name: PropTypes.string.isRequired,
-  number: PropTypes.string.isRequired,
+    id: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    number: PropTypes.string.isRequired,
 };

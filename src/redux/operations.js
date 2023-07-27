@@ -1,44 +1,41 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchContacts, addContact, deleteContact } from "./operations";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const handlePending = state => {
-    state.isLoading = true;
-};
+axios.defaults.baseURL = "https://648b60e317f1536d65eae307.mockapi.io";
 
-const handleRejected = (state, action) => {
-    state.isLoading = false;
-    state.error = action.payload;
-};
+export const fetchContacts = createAsyncThunk(
+    "contacts/fetchAll",
+    async (_, thunkAPI) => {
+        try {
+        const response = await axios.get("/contacts");
+        return response.data;
+        } catch (e) {
+        return thunkAPI.rejectWithValue(e.message);
+        }
+    }
+);
 
-const contactsSlice = createSlice({
-    name: "contacts",
-    initialState: {
-        items: [],
-        isLoading: false,
-        error: null
-    },
-    extraReducers: (builder) => {
-        builder
-        .addCase(fetchContacts.fulfilled, (state, { payload }) => {
-            state.isLoading = false;
-            state.error = null;
-            state.items = payload;
-        })
-        .addCase(addContact.fulfilled, (state, { payload }) => {
-            state.isLoading = false;
-            state.error = null;
-            state.items.push(payload);
-        })
-        .addCase(deleteContact.fulfilled, (state, { payload }) => {
-            state.isLoading = false;
-            state.error = null;
-            const index = state.items.findIndex(
-                contact => contact.id === payload.id);
-            state.items.splice(index, 1);
-        })
-        .addMatcher((action) => action.type.endsWith('/pending'), handlePending)
-        .addMatcher((action) => action.type.endsWith('/rejected'), handleRejected)
-    },
-});
+export const addContact = createAsyncThunk(
+    "contacts/addContact",
+    async ({ name, number }, thunkAPI) => {
+        try {
+            const response = await axios.post("/contacts", { name, number });
+            return response.data;
+            
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e.message);
+        }
+    }
+);
 
-export const contactReducer = contactsSlice.reducer;
+export const deleteContact = createAsyncThunk(
+    "contacts/deleteContact",
+    async (contactId, thunkAPI) => {
+        try {
+            const response = await axios.delete(`/contacts/${contactId}`);
+            return response.data;
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e.message);
+        }
+    }
+);
