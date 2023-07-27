@@ -1,4 +1,4 @@
-import { Container, Title, SubTitle } from "./App.module.scss";
+import styles from "./App.module.scss";
 import { ContactForm } from "../ContactForm";
 import { Filter } from "../Filter";
 import { ContactList } from "../ContactList";
@@ -19,12 +19,12 @@ export const App = () => {
   }, [dispatch]);
 
   return (
-    <div className={Container}>
+    <div className={styles.Container}>
       {error &&
         Notify.failure("Ooops!..Something went wrong. Try to reload page")}
-      <h1 className={Title}>Phonebook</h1>
+      <h1 className={styles.Title}>Phonebook</h1>
       <ContactForm />
-      <h2 className={SubTitle}>Contacts</h2>
+      <h2 className={styles.SubTitle}>Contacts</h2>
       <Filter />
       {isLoading && !error && <Loader />}
       <ContactList />

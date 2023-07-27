@@ -70,7 +70,7 @@ export const Button = styled.button`
 
         &:hover,
         &:focus {
-        background-color: #188CE8;
+        background-color: #000000;
         transform: scale(1.01);
     }
 `;
