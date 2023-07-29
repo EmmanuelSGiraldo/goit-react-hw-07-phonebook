@@ -1,10 +1,10 @@
 import { FormStyled, Label, Input, Error, Button } from "./ContactForm.styled";
 import { Formik, ErrorMessage } from "formik";
-import * as yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { selectContacts } from "../../redux/selectors";
 import { addContact } from "../../redux/operations";
 import { Notify } from "notiflix";
+import * as yup from "yup";
 
 const schema = yup.object().shape({
   name: yup.string().required(),
